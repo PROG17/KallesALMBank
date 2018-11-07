@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Globalization;
 using System.IO;
 using BankRepo.Models;
 
@@ -39,7 +40,7 @@ namespace BankRepo
             string[] parts = line.Split(';');
             return new Customer
             {
-                Id = int.Parse(parts[0]),
+                Id = int.Parse(parts[0], CultureInfo.InvariantCulture),
                 OrganizationId = parts[1],
                 OrganizationName = parts[2],
                 Address = parts[3],
@@ -56,9 +57,9 @@ namespace BankRepo
             string[] parts = line.Split(';');
             return new Account
             {
-                Id = int.Parse(parts[0]),
-                CustomerId = int.Parse(parts[1]),
-                Balance = decimal.Parse(parts[2]),
+                Id = int.Parse(parts[0], CultureInfo.InvariantCulture),
+                CustomerId = int.Parse(parts[1], CultureInfo.InvariantCulture),
+                Balance = decimal.Parse(parts[2], CultureInfo.InvariantCulture),
             };
         }
     }
