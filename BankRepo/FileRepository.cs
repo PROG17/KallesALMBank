@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
 using System.Linq;
@@ -17,7 +18,10 @@ namespace BankRepo
             Customers = new List<Customer>();
             Accounts = new List<Account>();
 
-            ReadFromFile(@"bankdata.txt");
+            string folder = Path.Combine(AppDomain.CurrentDomain.BaseDirectory,
+                AppDomain.CurrentDomain.RelativeSearchPath ?? "");
+
+            ReadFromFile(Path.Combine(folder, @"bankdata.txt"));
             
             _accountsLookup = (Lookup<int, Account>) 
                 Accounts.ToLookup(a => Customers.Single(c => c.Id == a.CustomerId).Id, a => a);
