@@ -40,7 +40,7 @@ namespace KallesBank
                 cfg.CreateMap<Customer, CustomerViewModel>();
             });
 
-            services.AddSingleton<IRepository, FileRepository>();
+            services.AddSingleton<IBankRepository, FileBankRepository>();
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
         }

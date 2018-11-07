@@ -7,13 +7,13 @@ using BankRepo.Models;
 
 namespace BankRepo
 {
-    public class FileRepository : IRepository
+    public class FileBankRepository : IBankRepository
     {
         public List<Customer> Customers { get; }
         public List<Account> Accounts { get; }
         private readonly Lookup<int, Account> _accountsLookup;
 
-        public FileRepository()
+        public FileBankRepository()
         {
             Customers = new List<Customer>();
             Accounts = new List<Account>();

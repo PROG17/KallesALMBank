@@ -9,12 +9,12 @@ namespace KallesBank.Tests
     [TestClass]
     public class BankRepoTests
     {
-        private IRepository _repo;
+        private IBankRepository _repo;
 
         [TestInitialize]
         public void TestInitialize()
         {
-            _repo = new FileRepository();
+            _repo = new FileBankRepository();
 
             Assert.IsNotNull(_repo.Customers);
             Assert.IsNotNull(_repo.Accounts);

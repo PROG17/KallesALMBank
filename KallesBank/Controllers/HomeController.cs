@@ -12,16 +12,16 @@ namespace KallesBank.Controllers
 {
     public class HomeController : Controller
     {
-        private readonly IRepository _repository;
+        private readonly IBankRepository _bankRepository;
 
-        public HomeController(IRepository repository)
+        public HomeController(IBankRepository bankRepository)
         {
-            _repository = repository;
+            _bankRepository = bankRepository;
         }
 
         public IActionResult Index()
         {
-            BankViewModel model = BankViewModel.FromRepository(_repository);
+            BankViewModel model = BankViewModel.FromRepository(_bankRepository);
 
             return View(model);
         }

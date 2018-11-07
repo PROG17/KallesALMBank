@@ -9,13 +9,13 @@ namespace KallesBank.Models.Bank
     {
         public List<CustomerViewModel> Customers { get; set; }
 
-        public static BankViewModel FromRepository(IRepository repository)
+        public static BankViewModel FromRepository(IBankRepository bankRepository)
         {
-            List<CustomerViewModel> customers = repository.Customers.Select(Mapper.Map<CustomerViewModel>).ToList();
+            List<CustomerViewModel> customers = bankRepository.Customers.Select(Mapper.Map<CustomerViewModel>).ToList();
 
             foreach (CustomerViewModel customer in customers)
             {
-                customer.Accounts = repository.GetCustomerAccounts(customer.Id)
+                customer.Accounts = bankRepository.GetCustomerAccounts(customer.Id)
                     .Select(Mapper.Map<AccountViewModel>)
                     .ToList();
             }

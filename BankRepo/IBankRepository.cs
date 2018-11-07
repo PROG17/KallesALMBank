@@ -4,7 +4,7 @@ using BankRepo.Models;
 
 namespace BankRepo
 {
-    public interface IRepository
+    public interface IBankRepository
     {
         List<Customer> Customers { get; }
         List<Account> Accounts { get; }
