@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
+using System.Linq;
 using BankRepo.Models;
 
 namespace BankRepo
@@ -9,6 +10,7 @@ namespace BankRepo
     {
         public List<Customer> Customers { get; }
         public List<Account> Accounts { get; }
+        private readonly Lookup<int, Account> _accountsLookup;
 
         public FileRepository()
         {
@@ -16,6 +18,14 @@ namespace BankRepo
             Accounts = new List<Account>();
 
             ReadFromFile(@"bankdata.txt");
+            
+            _accountsLookup = (Lookup<int, Account>) 
+                Accounts.ToLookup(a => Customers.Single(c => c.Id == a.CustomerId).Id, a => a);
+        }
+
+        public List<Account> GetCustomerAccounts(int customerId)
+        {
+            return _accountsLookup[customerId].ToList();
         }
 
         private void ReadFromFile(string path)
