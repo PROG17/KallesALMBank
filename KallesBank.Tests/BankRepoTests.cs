@@ -23,6 +23,28 @@ namespace KallesBank.Tests
         }
 
         [TestMethod]
+        public void NoDuplicateAccounts()
+        {
+            // Act
+            var duplicates = _repo.Accounts.GroupBy(k => k.Id)
+                .Where(g => g.Count() > 1)
+                .ToList();
+
+            Assert.AreEqual(0, duplicates.Count, $"Duplicate accounts: {string.Join(", ", duplicates.Select(g => g.Key))}");
+        }
+
+        [TestMethod]
+        public void NoDuplicateCustomers()
+        {
+            // Act
+            var duplicates = _repo.Customers.GroupBy(k => k.Id)
+                .Where(g => g.Count() > 1)
+                .ToList();
+
+            Assert.AreEqual(0, duplicates.Count, $"Duplicate customers: {string.Join(", ", duplicates.Select(g => g.Key))}");
+        }
+
+        [TestMethod]
         public void AccountsHaveCustomers()
         {
             foreach (Account account in _repo.Accounts)
