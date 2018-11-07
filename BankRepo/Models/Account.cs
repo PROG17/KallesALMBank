@@ -1,4 +1,4 @@
-﻿namespace BankRepo
+﻿namespace BankRepo.Models
 {
     public class Account
     {
