@@ -1,14 +1,44 @@
-﻿@{
+﻿@model BankViewModel
+@{
     ViewData["Title"] = "Home Page";
 }
 
-<div class="row">
+<section class="row">
     <div class="col-xs-12">
         <h1>
-            Home page
+            All customers
         </h1>
-        <p>
-            Lorem ipsum, dolem amor
-        </p>
+        <div>
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>Account</th>
+                        <th>Org.</th>
+                        <th>Name</th>
+                        <th>Account balances</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (CustomerViewModel customer in Model.Customers)
+                    {
+                        <tr>
+                            <td>#@customer.Id</td>
+                            <td class="text-muted">@customer.OrganizationId</td>
+                            <td>@customer.OrganizationName</td>
+                            <td>
+                                <ul class="list-inline">
+                                    @foreach (AccountViewModel account in customer.Accounts.OrderByDescending(a => a.Balance))
+                                    {
+                                        <li>
+                                            <span class="label label-success" title="Account #@account.Id">@account.Balance.ToString("C")</span>
+                                        </li>
+                                    }
+                                </ul>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
     </div>
-</div>
+</section>

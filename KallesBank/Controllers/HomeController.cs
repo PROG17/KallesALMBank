@@ -3,16 +3,27 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
+using BankRepo;
 using Microsoft.AspNetCore.Mvc;
 using KallesBank.Models;
+using KallesBank.Models.Bank;
 
 namespace KallesBank.Controllers
 {
     public class HomeController : Controller
     {
+        private readonly IRepository _repository;
+
+        public HomeController(IRepository repository)
+        {
+            _repository = repository;
+        }
+
         public IActionResult Index()
         {
-            return View();
+            BankViewModel model = BankViewModel.FromRepository(_repository);
+
+            return View(model);
         }
 
         public IActionResult About()
