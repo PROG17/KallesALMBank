@@ -6,8 +6,8 @@ namespace BankRepo
 {
     public interface IBankRepository
     {
-        List<Customer> Customers { get; }
-        List<Account> Accounts { get; }
+        IReadOnlyList<Customer> Customers { get; }
+        IReadOnlyList<Account> Accounts { get; }
         List<Account> GetCustomerAccounts(int customerId);
     }
 }
