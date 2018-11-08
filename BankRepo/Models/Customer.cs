@@ -13,22 +13,5 @@ namespace BankRepo.Models
         public string PostCode { get; set; }
         public string Country { get; set; }
         public string Telephone { get; set; }
-
-        internal static Customer Deserialize(string line)
-        {
-            string[] parts = line.Split(';');
-            return new Customer
-            {
-                Id = int.Parse(parts[0], CultureInfo.InvariantCulture),
-                OrganizationId = parts[1],
-                OrganizationName = parts[2],
-                Address = parts[3],
-                City = parts[4],
-                Region = parts[5],
-                PostCode = parts[6],
-                Country = parts[7],
-                Telephone = parts[8],
-            };
-        }
     }
 }
