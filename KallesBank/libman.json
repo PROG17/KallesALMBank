@@ -13,7 +13,7 @@
     },
     {
       "library": "jquery-validate@1.18.0",
-      "destination": "wwwroot/lib/jquery-validate/",
+      "destination": "wwwroot/lib/jquery-validation/",
       "files": [
         "jquery.validate.min.js",
         "jquery.validate.js",
