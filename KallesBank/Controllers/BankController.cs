@@ -1,4 +1,5 @@
-﻿using BankRepo;
+﻿using System;
+using BankRepo;
 using BankRepo.Models;
 using KallesBank.Models;
 using Microsoft.AspNetCore.Mvc;
@@ -22,12 +23,52 @@ namespace KallesBank.Controllers
         [HttpPost]
         public IActionResult Deposit(TransferViewModel model)
         {
+            if (!ModelState.IsValid)
+                return View("Transfer", model);
+
+            Account account = _bankRepository.GetAccount(model.AccountId ?? 0);
+            if (account is null)
+            {
+                ModelState.AddModelError(nameof(model.AccountId), $"Account #{model.AccountId} doesnt exist.");
+                return View("Transfer", model);
+            }
+
+            try
+            {
+                account.Deposit(model.Amount);
+                ViewData["TransferSuccess"] = "Deposit";
+            }
+            catch (Exception e)
+            {
+                ModelState.AddModelError(nameof(model.Amount), e.Message);
+            }
+
             return View("Transfer", model);
         }
 
         [HttpPost]
         public IActionResult Withdraw(TransferViewModel model)
         {
+            if (!ModelState.IsValid)
+                return View("Transfer", model);
+
+            Account account = _bankRepository.GetAccount(model.AccountId ?? 0);
+            if (account is null)
+            {
+                ModelState.AddModelError(nameof(model.AccountId), $"Account #{model.AccountId} doesnt exist.");
+                return View("Transfer", model);
+            }
+
+            try
+            {
+                account.Withdrawl(model.Amount);
+                ViewData["TransferSuccess"] = "Withdrawl";
+            }
+            catch (Exception e)
+            {
+                ModelState.AddModelError(nameof(model.Amount), e.Message);
+            }
+
             return View("Transfer", model);
         }
     }
