@@ -1,13 +1,12 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using BankRepo;
 using BankRepo.Models;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace KallesBank.Tests
+namespace BankRepo.Tests
 {
     [TestClass]
-    public class BankRepoTests
+    public class RepoTests
     {
         private IBankRepository _repo;
 

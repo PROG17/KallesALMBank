@@ -2,10 +2,10 @@
 using BankRepo.Models;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace KallesBank.Tests
+namespace BankRepo.Tests
 {
     [TestClass]
-    public class BankAccountTests
+    public class AccountTests
     {
         private Account account;
 
