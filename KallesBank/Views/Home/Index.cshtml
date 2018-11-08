@@ -4,7 +4,7 @@
 }
 
 <section class="row">
-    <div class="col-xs-12">
+    <div class="col">
         <h1>
             All customers
         </h1>
@@ -29,8 +29,8 @@
                                 <ul class="list-inline">
                                     @foreach (AccountViewModel account in customer.Accounts.OrderByDescending(a => a.Balance))
                                     {
-                                        <li>
-                                            <span class="label label-success" title="Account #@account.Id">@account.Balance.ToString("C")</span>
+                                        <li class="list-inline-item">
+                                            <span class="badge badge-success" title="Account #@account.Id">@account.Balance.ToString("C")</span>
                                         </li>
                                     }
                                 </ul>
