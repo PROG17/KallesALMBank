@@ -1,4 +1,5 @@
-﻿@model BankViewModel
+﻿@using BankRepo.Models
+@model List<CustomerViewModel>
 @{
     ViewData["Title"] = "Home Page";
 }
@@ -19,15 +20,15 @@
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach (CustomerViewModel customer in Model.Customers)
+                    @foreach (CustomerViewModel m in Model)
                     {
                         <tr>
-                            <td>#@customer.Id</td>
-                            <td class="text-muted">@customer.OrganizationId</td>
-                            <td>@customer.OrganizationName</td>
+                            <td>#@m.Customer.Id</td>
+                            <td class="text-muted">@m.Customer.OrganizationId</td>
+                            <td>@m.Customer.OrganizationName</td>
                             <td>
                                 <ul class="list-inline">
-                                    @foreach (AccountViewModel account in customer.Accounts.OrderByDescending(a => a.Balance))
+                                    @foreach (Account account in m.Accounts.OrderByDescending(a => a.Balance))
                                     {
                                         <li class="list-inline-item">
                                             <span class="badge badge-success" title="Account #@account.Id">@account.Balance.ToString("C")</span>
