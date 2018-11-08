@@ -27,5 +27,23 @@ namespace BankRepo
 
             return Accounts.Where(a => a.CustomerId == customerId).ToList();
         }
+
+        public Customer GetCustomerFromAccount(int accountId)
+        {
+            Account account = GetAccount(accountId);
+            if (account is null) return null;
+
+            return GetCustomer(account.CustomerId);
+        }
+
+        public Customer GetCustomer(int customerId)
+        {
+            return _customers.SingleOrDefault(c => c.Id == customerId);
+        }
+
+        public Account GetAccount(int accountId)
+        {
+            return _accounts.SingleOrDefault(c => c.Id == accountId);
+        }
     }
 }
