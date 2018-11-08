@@ -14,7 +14,7 @@ namespace BankRepo
         IReadOnlyList<Account> Accounts { get; }
 
         [NotNull, ItemNotNull]
-        List<Account> GetCustomerAccounts(int customerId);
+        List<Account> GetAccountsFromCustomer(int customerId);
 
         [CanBeNull]
         Customer GetCustomerFromAccount(int accountId);

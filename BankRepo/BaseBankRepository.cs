@@ -20,7 +20,7 @@ namespace BankRepo
             _accounts = new List<Account>();
         }
 
-        public List<Account> GetCustomerAccounts(int customerId)
+        public List<Account> GetAccountsFromCustomer(int customerId)
         {
             Customer customer = GetCustomer(customerId);
             if (customer is null) return new List<Account>();

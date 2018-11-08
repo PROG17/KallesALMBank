@@ -72,7 +72,7 @@ namespace BankRepo.Tests
             foreach (Customer customer in _repo.Customers)
             {
                 // Act
-                List<Account> accounts = _repo.GetCustomerAccounts(customer.Id);
+                List<Account> accounts = _repo.GetAccountsFromCustomer(customer.Id);
                 List<Account> expected = _repo.Accounts.Where(a => a.CustomerId == customer.Id).ToList();
 
                 // Assert
