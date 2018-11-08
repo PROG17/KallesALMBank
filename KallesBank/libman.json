@@ -28,6 +28,28 @@
         "jquery.validate.unobtrusive.min.js",
         "jquery.validate.unobtrusive.js"
       ]
+    },
+    {
+      "library": "twitter-bootstrap@3.3.7",
+      "destination": "wwwroot/lib/bootstrap/",
+      "files": [
+        "js/bootstrap.min.js",
+        "css/bootstrap-theme.css",
+        "css/bootstrap-theme.css.map",
+        "css/bootstrap-theme.min.css",
+        "css/bootstrap-theme.min.css.map",
+        "css/bootstrap.css",
+        "css/bootstrap.css.map",
+        "css/bootstrap.min.css.map",
+        "css/bootstrap.min.css",
+        "fonts/glyphicons-halflings-regular.eot",
+        "fonts/glyphicons-halflings-regular.svg",
+        "fonts/glyphicons-halflings-regular.ttf",
+        "fonts/glyphicons-halflings-regular.woff",
+        "fonts/glyphicons-halflings-regular.woff2",
+        "js/bootstrap.js",
+        "js/npm.js"
+      ]
     }
   ]
 }
