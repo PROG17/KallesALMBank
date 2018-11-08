@@ -1,0 +1,44 @@
+﻿@using System.Globalization
+@model TransferViewModel
+@{
+    ViewData["Title"] = "Transfer money";
+}
+
+<h2>Transfer money</h2>
+
+<form method="post">
+    <div class="form-row">
+        <div class="col-md-4">
+            <label asp-for="AccountId"></label>
+            <div class="input-group">
+                <div class="input-group-prepend">
+                    <span class="input-group-text bg-white" id="accountIdHash">#</span>
+                </div>
+                <input asp-for="AccountId" class="form-control" aria-describedby="accountIdHash" />
+            </div>
+            <span class="text-danger" asp-validation-for="AccountId"></span>
+        </div>
+        <div class="col-md-4">
+            <label asp-for="Amount"></label>
+            <div class="input-group">
+                <div class="input-group-prepend">
+                    <span class="input-group-text bg-white" id="amountMoneySign">@CultureInfo.CurrentCulture.NumberFormat.CurrencySymbol</span>
+                </div>
+                <input asp-for="Amount" class="form-control" />
+            </div>
+            <span class="text-danger" asp-validation-for="Amount"></span>
+        </div>
+        <div class="col-md-4">
+            <label>&nbsp;</label>
+            <div>
+                <button class="btn btn-primary" asp-action="Deposit">Deposit</button>
+                <button class="btn btn-secondary" asp-action="Withdraw">Withdraw</button>
+            </div>
+        </div>
+    </div>
+</form>
+
+@section Scripts
+    {
+    <partial name="_ValidationScriptsPartial" />
+}
