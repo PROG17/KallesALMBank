@@ -6,12 +6,19 @@
     ViewData["Title"] = "Transfer money";
 }
 
-@if (ViewData["TransferSuccess"] is string status)
+@if (ViewData["TransferSuccess"] is true)
 {
     Account account = Model.AccountId is null ? null : BankRepository.GetAccount(Model.AccountId.Value);
     <div class="alert alert-success alert-dismissible fade show" role="alert">
         <h4 class="alert-heading">
-            @status successful!
+            @if (Model.Submit == TransferViewModel.SubmitType.Deposit)
+            {
+                <text>Deposit successful!</text>
+            }
+            else
+            {
+                <text>Withdrawl successful!</text>
+            }
         </h4>
         <p>
             Your <strong>@Model.Amount.ToString("C")</strong> has successfully been transfered.<br/>
@@ -28,7 +35,7 @@
 
 <h2>Transfer money</h2>
 
-<form method="post">
+<form method="post" asp-action="Transfer">
     <div class="form-row">
         <div class="col-md-4">
             <label asp-for="AccountId"></label>
@@ -53,8 +60,8 @@
         <div class="col-md-4">
             <label>&nbsp;</label>
             <div>
-                <button class="btn btn-primary" asp-action="Deposit">Deposit</button>
-                <button class="btn btn-secondary" asp-action="Withdraw">Withdraw</button>
+                <input asp-for="Submit" type="submit" class="btn btn-primary" value="@TransferViewModel.SubmitType.Deposit" />
+                <input asp-for="Submit" type="submit" class="btn btn-secondary" value="@TransferViewModel.SubmitType.Withdraw" />
             </div>
         </div>
     </div>

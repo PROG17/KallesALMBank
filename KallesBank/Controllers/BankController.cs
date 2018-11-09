@@ -22,18 +22,7 @@ namespace KallesBank.Controllers
         }
 
         [HttpPost]
-        public IActionResult Deposit(TransferViewModel model)
-        {
-            return DepositOrWithdraw(model, a => a.Deposit(model.Amount), "Deposit");
-        }
-
-        [HttpPost]
-        public IActionResult Withdraw(TransferViewModel model)
-        {
-            return DepositOrWithdraw(model, a => a.Withdrawl(model.Amount), "Withdrawl");
-        }
-
-        private IActionResult DepositOrWithdraw(TransferViewModel model, Action<Account> action, string label)
+        public IActionResult Transfer(TransferViewModel model)
         {
             if (ValidateAccount(model) is JsonResult json && json.Value is string error)
             {
@@ -47,8 +36,18 @@ namespace KallesBank.Controllers
 
             try
             {
-                action(account);
-                ViewData["TransferSuccess"] = label;
+                switch (model.Submit)
+                {
+                    case TransferViewModel.SubmitType.Deposit:
+                        account.Deposit(model.Amount);
+                        break;
+
+                    case TransferViewModel.SubmitType.Withdraw:
+                        account.Withdrawl(model.Amount);
+                        break;
+                }
+
+                ViewData["TransferSuccess"] = true;
             }
             catch (Exception e)
             {

@@ -16,8 +16,16 @@ namespace KallesBank.Models
 
         [Display(Name = "Transfer amount")]
         [Required(ErrorMessage = "Please specify a transfer amount.")]
-        [Range(0, double.PositiveInfinity, ErrorMessage = "Please only specify a positive amount.")]
+        [Range(double.Epsilon, double.PositiveInfinity, ErrorMessage = "Please only specify a positive amount.")]
         [DataType(DataType.Currency, ErrorMessage = "Please specify a valid amount.")]
         public decimal Amount { get; set; }
+
+        public SubmitType Submit { get; set; }
+
+        public enum SubmitType
+        {
+            Deposit,
+            Withdraw
+        }
     }
 }
