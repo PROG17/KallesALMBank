@@ -24,31 +24,16 @@ namespace KallesBank.Controllers
         [HttpPost]
         public IActionResult Deposit(TransferViewModel model)
         {
-            if (ValidateAccount(model) is JsonResult json && json.Value is string error)
-            {
-                ModelState.AddModelError(nameof(model.AccountId), error);
-            }
-
-            if (!ModelState.IsValid)
-                return View("Transfer", model);
-
-            Account account = _bankRepository.GetAccount(model.AccountId ?? 0);
-
-            try
-            {
-                account.Deposit(model.Amount);
-                ViewData["TransferSuccess"] = "Deposit";
-            }
-            catch (Exception e)
-            {
-                ModelState.AddModelError(nameof(model.Amount), e.Message);
-            }
-
-            return View("Transfer", model);
+            return DepositOrWithdraw(model, a => a.Deposit(model.Amount), "Deposit");
         }
 
         [HttpPost]
         public IActionResult Withdraw(TransferViewModel model)
+        {
+            return DepositOrWithdraw(model, a => a.Withdrawl(model.Amount), "Withdrawl");
+        }
+
+        private IActionResult DepositOrWithdraw(TransferViewModel model, Action<Account> action, string label)
         {
             if (ValidateAccount(model) is JsonResult json && json.Value is string error)
             {
@@ -57,13 +42,13 @@ namespace KallesBank.Controllers
 
             if (!ModelState.IsValid)
                 return View("Transfer", model);
-            
+
             Account account = _bankRepository.GetAccount(model.AccountId ?? 0);
 
             try
             {
-                account.Withdrawl(model.Amount);
-                ViewData["TransferSuccess"] = "Withdrawl";
+                action(account);
+                ViewData["TransferSuccess"] = label;
             }
             catch (Exception e)
             {
