@@ -51,7 +51,9 @@
             <label asp-for="Amount"></label>
             <div class="input-group">
                 <div class="input-group-prepend">
-                    <span class="input-group-text bg-white" id="amountMoneySign">@CultureInfo.CurrentCulture.NumberFormat.CurrencySymbol</span>
+                    <span class="input-group-text bg-white" id="amountMoneySign" data-toggle="tooltip" title="@RegionInfo.CurrentRegion.ISOCurrencySymbol">
+                        @CultureInfo.CurrentCulture.NumberFormat.CurrencySymbol
+                    </span>
                 </div>
                 <input asp-for="Amount" class="form-control" />
             </div>
@@ -70,4 +72,9 @@
 @section Scripts
     {
     <partial name="_ValidationScriptsPartial" />
+    <script type="text/javascript">
+        $(function () {
+            $('[data-toggle="tooltip"]').tooltip();
+        })
+    </script>
 }
