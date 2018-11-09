@@ -1,6 +1,7 @@
 ﻿using System;
 using BankRepo;
 using BankRepo.Models;
+using JetBrains.Annotations;
 using KallesBank.Models;
 using Microsoft.AspNetCore.Mvc;
 
@@ -23,15 +24,15 @@ namespace KallesBank.Controllers
         [HttpPost]
         public IActionResult Deposit(TransferViewModel model)
         {
+            if (ValidateAccount(model) is JsonResult json && json.Value is string error)
+            {
+                ModelState.AddModelError(nameof(model.AccountId), error);
+            }
+
             if (!ModelState.IsValid)
                 return View("Transfer", model);
 
             Account account = _bankRepository.GetAccount(model.AccountId ?? 0);
-            if (account is null)
-            {
-                ModelState.AddModelError(nameof(model.AccountId), $"Account #{model.AccountId} doesnt exist.");
-                return View("Transfer", model);
-            }
 
             try
             {
@@ -49,15 +50,15 @@ namespace KallesBank.Controllers
         [HttpPost]
         public IActionResult Withdraw(TransferViewModel model)
         {
+            if (ValidateAccount(model) is JsonResult json && json.Value is string error)
+            {
+                ModelState.AddModelError(nameof(model.AccountId), error);
+            }
+
             if (!ModelState.IsValid)
                 return View("Transfer", model);
-
+            
             Account account = _bankRepository.GetAccount(model.AccountId ?? 0);
-            if (account is null)
-            {
-                ModelState.AddModelError(nameof(model.AccountId), $"Account #{model.AccountId} doesnt exist.");
-                return View("Transfer", model);
-            }
 
             try
             {
@@ -70,6 +71,21 @@ namespace KallesBank.Controllers
             }
 
             return View("Transfer", model);
+        }
+
+        [AcceptVerbs("Get", "Post", Route = "/api/[controller]/ValidateAccount")]
+        public IActionResult ValidateAccount(TransferViewModel model)
+        {
+            if (model.AccountId is null)
+            {
+                return Json($"Please specify the target account.");
+            }
+            if (_bankRepository.GetAccount(model.AccountId.Value) is null)
+            {
+                return Json($"Account #{model.AccountId} doesnt exist.");
+            }
+
+            return Json(true);
         }
     }
 }

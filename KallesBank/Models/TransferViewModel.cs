@@ -3,6 +3,7 @@ using System.ComponentModel.DataAnnotations;
 using BankRepo;
 using BankRepo.Models;
 using JetBrains.Annotations;
+using Microsoft.AspNetCore.Mvc;
 
 namespace KallesBank.Models
 {
@@ -10,6 +11,7 @@ namespace KallesBank.Models
     {
         [Display(Name = "Account")]
         [Required(ErrorMessage = "Please specify the target account.")]
+        [Remote(controller:"Bank", action:"ValidateAccount")]
         public int? AccountId { get; set; }
 
         [Display(Name = "Transfer amount")]
