@@ -1,4 +1,6 @@
-﻿namespace BankRepo.Models
+﻿using System.Globalization;
+
+namespace BankRepo.Models
 {
     public class Customer
     {

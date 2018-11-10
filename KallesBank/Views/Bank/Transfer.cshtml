@@ -1,0 +1,80 @@
+﻿@using System.Globalization
+@using BankRepo
+@inject IBankRepository BankRepository
+@model TransferViewModel
+@{
+    ViewData["Title"] = "Transfer money";
+}
+
+@if (ViewData["TransferSuccess"] is true)
+{
+    Account account = Model.AccountId is null ? null : BankRepository.GetAccount(Model.AccountId.Value);
+    <div class="alert alert-success alert-dismissible fade show" role="alert">
+        <h4 class="alert-heading">
+            @if (Model.Submit == TransferViewModel.SubmitType.Deposit)
+            {
+                <text>Deposit successful!</text>
+            }
+            else
+            {
+                <text>Withdrawl successful!</text>
+            }
+        </h4>
+        <p>
+            Your <strong>@Model.Amount.ToString("C")</strong> has successfully been transfered.<br/>
+            New balance: <strong>@(account?.Balance.ToString("C") ?? "<unable to fetch balance>")</strong>
+        </p>
+        <p>
+            Have a nice day.
+        </p>
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+}
+
+<h2>Transfer money</h2>
+
+<form method="post" asp-action="Transfer">
+    <div class="form-row">
+        <div class="col-md-4">
+            <label asp-for="AccountId"></label>
+            <div class="input-group">
+                <div class="input-group-prepend">
+                    <span class="input-group-text bg-white" id="accountIdHash">#</span>
+                </div>
+                <input asp-for="AccountId" class="form-control" aria-describedby="accountIdHash" />
+            </div>
+            <span class="text-danger" asp-validation-for="AccountId"></span>
+        </div>
+        <div class="col-md-4">
+            <label asp-for="Amount"></label>
+            <div class="input-group">
+                <div class="input-group-prepend">
+                    <span class="input-group-text bg-white" id="amountMoneySign" data-toggle="tooltip" title="@RegionInfo.CurrentRegion.ISOCurrencySymbol">
+                        @CultureInfo.CurrentCulture.NumberFormat.CurrencySymbol
+                    </span>
+                </div>
+                <input asp-for="Amount" class="form-control" />
+            </div>
+            <span class="text-danger" asp-validation-for="Amount"></span>
+        </div>
+        <div class="col-md-4">
+            <label>&nbsp;</label>
+            <div>
+                <input asp-for="Submit" type="submit" class="btn btn-primary" value="@TransferViewModel.SubmitType.Deposit" />
+                <input asp-for="Submit" type="submit" class="btn btn-secondary" value="@TransferViewModel.SubmitType.Withdraw" />
+            </div>
+        </div>
+    </div>
+</form>
+
+@section Scripts
+    {
+    <partial name="_ValidationScriptsPartial" />
+    <script type="text/javascript">
+        $(function () {
+            $('[data-toggle="tooltip"]').tooltip();
+        })
+    </script>
+}

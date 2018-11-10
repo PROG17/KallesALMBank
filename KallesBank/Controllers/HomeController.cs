@@ -6,7 +6,6 @@ using System.Threading.Tasks;
 using BankRepo;
 using Microsoft.AspNetCore.Mvc;
 using KallesBank.Models;
-using KallesBank.Models.Bank;
 
 namespace KallesBank.Controllers
 {
@@ -21,7 +20,11 @@ namespace KallesBank.Controllers
 
         public IActionResult Index()
         {
-            BankViewModel model = BankViewModel.FromRepository(_bankRepository);
+            List<CustomerViewModel> model = _bankRepository.Customers
+                .Select(c => new CustomerViewModel {
+                    Customer = c,
+                    Accounts = _bankRepository.GetAccountsFromCustomer(c.Id)
+                }).ToList();
 
             return View(model);
         }

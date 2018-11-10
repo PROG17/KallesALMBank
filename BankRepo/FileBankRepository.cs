@@ -7,49 +7,43 @@ using BankRepo.Models;
 
 namespace BankRepo
 {
-    public class FileBankRepository : IBankRepository
+    public class FileBankRepository : BaseBankRepository
     {
-        public List<Customer> Customers { get; }
-        public List<Account> Accounts { get; }
-        private readonly Lookup<int, Account> _accountsLookup;
-
         public FileBankRepository()
         {
-            Customers = new List<Customer>();
-            Accounts = new List<Account>();
-
             string folder = Path.Combine(AppDomain.CurrentDomain.BaseDirectory,
                 AppDomain.CurrentDomain.RelativeSearchPath ?? "");
 
-            ReadFromFile(Path.Combine(folder, @"bankdata.txt"));
-            
-            _accountsLookup = (Lookup<int, Account>) 
-                Accounts.ToLookup(a => Customers.Single(c => c.Id == a.CustomerId).Id, a => a);
-        }
+            string path = Path.Combine(folder, @"bankdata.txt");
 
-        public List<Account> GetCustomerAccounts(int customerId)
-        {
-            return _accountsLookup[customerId].ToList();
-        }
-
-        private void ReadFromFile(string path)
-        {
             var file = new StreamReader(path);
 
             int customers = int.Parse(file.ReadLine());
             for (var i = 0; i < customers; i++)
             {
-                Customers.Add(ReadCustomer(file.ReadLine()));
+                _customers.Add(DeserializeCustomer(file.ReadLine()));
             }
 
             int accounts = int.Parse(file.ReadLine());
             for (var i = 0; i < accounts; i++)
             {
-                Accounts.Add(ReadAccount(file.ReadLine()));
+                _accounts.Add(DeserializeAccount(file.ReadLine()));
             }
         }
 
-        private static Customer ReadCustomer(string line)
+
+        internal static Account DeserializeAccount(string line)
+        {
+            string[] parts = line.Split(';');
+            return new Account
+            {
+                Id = int.Parse(parts[0], CultureInfo.InvariantCulture),
+                CustomerId = int.Parse(parts[1], CultureInfo.InvariantCulture),
+                Balance = decimal.Parse(parts[2], CultureInfo.InvariantCulture),
+            };
+        }
+
+        internal static Customer DeserializeCustomer(string line)
         {
             string[] parts = line.Split(';');
             return new Customer
@@ -63,17 +57,6 @@ namespace BankRepo
                 PostCode = parts[6],
                 Country = parts[7],
                 Telephone = parts[8],
-            };
-        }
-
-        private static Account ReadAccount(string line)
-        {
-            string[] parts = line.Split(';');
-            return new Account
-            {
-                Id = int.Parse(parts[0], CultureInfo.InvariantCulture),
-                CustomerId = int.Parse(parts[1], CultureInfo.InvariantCulture),
-                Balance = decimal.Parse(parts[2], CultureInfo.InvariantCulture),
             };
         }
     }

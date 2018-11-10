@@ -5,7 +5,7 @@ VisualStudioVersion = 15.0.28010.2050
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "KallesBank", "KallesBank\KallesBank.csproj", "{FBC22187-CE13-4168-8CAA-EF7D39BBFABA}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "KallesBank.Tests", "KallesBank.Tests\KallesBank.Tests.csproj", "{3CCCFDD4-1FF0-4C33-946C-28AB54139861}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BankRepo.Tests", "BankRepo.Tests\BankRepo.Tests.csproj", "{3CCCFDD4-1FF0-4C33-946C-28AB54139861}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BankRepo", "BankRepo\BankRepo.csproj", "{D3A0881A-4875-4818-BBD0-4F7054FEF93E}"
 EndProject

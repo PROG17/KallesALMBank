@@ -1,4 +1,5 @@
-﻿@model BankViewModel
+﻿@using BankRepo.Models
+@model List<CustomerViewModel>
 @{
     ViewData["Title"] = "Home Page";
 }
@@ -19,18 +20,21 @@
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach (CustomerViewModel customer in Model.Customers)
+                    @foreach (CustomerViewModel m in Model)
                     {
                         <tr>
-                            <td>#@customer.Id</td>
-                            <td class="text-muted">@customer.OrganizationId</td>
-                            <td>@customer.OrganizationName</td>
+                            <td>#@m.Customer.Id</td>
+                            <td class="text-muted">@m.Customer.OrganizationId</td>
+                            <td>@m.Customer.OrganizationName</td>
                             <td>
                                 <ul class="list-inline">
-                                    @foreach (AccountViewModel account in customer.Accounts.OrderByDescending(a => a.Balance))
+                                    @foreach (Account account in m.Accounts.OrderByDescending(a => a.Balance))
                                     {
                                         <li class="list-inline-item">
-                                            <span class="badge badge-success" title="Account #@account.Id">@account.Balance.ToString("C")</span>
+                                            <a class="badge badge-success" data-toggle="tooltip" title="Account #@account.Id"
+                                               asp-controller="Bank" asp-action="Transfer" asp-route-id="@account.Id">
+                                                @account.Balance.ToString("C")
+                                            </a>
                                         </li>
                                     }
                                 </ul>
@@ -42,3 +46,12 @@
         </div>
     </div>
 </section>
+
+@section Scripts
+{
+    <script type="text/javascript">
+        $(function () {
+            $('[data-toggle="tooltip"]').tooltip();
+        })
+    </script>
+}

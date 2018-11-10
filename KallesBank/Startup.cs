@@ -2,10 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using AutoMapper;
 using BankRepo;
 using BankRepo.Models;
-using KallesBank.Models.Bank;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -33,11 +31,6 @@ namespace KallesBank
                 // This lambda determines whether user consent for non-essential cookies is needed for a given request.
                 options.CheckConsentNeeded = context => true;
                 options.MinimumSameSitePolicy = SameSiteMode.None;
-            });
-
-            Mapper.Initialize(cfg => {
-                cfg.CreateMap<Account, AccountViewModel>();
-                cfg.CreateMap<Customer, CustomerViewModel>();
             });
 
             services.AddSingleton<IBankRepository, FileBankRepository>();

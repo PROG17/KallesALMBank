@@ -67,6 +67,17 @@
         "webfonts/fa-solid-900.woff",
         "webfonts/fa-solid-900.woff2"
       ]
+    },
+    {
+      "provider": "cdnjs",
+      "library": "popper.js@1.14.5",
+      "destination": "wwwroot/lib/popper.js/",
+      "files": [
+        "umd/popper.min.js",
+        "umd/popper.js",
+        "umd/popper.js.map",
+        "umd/popper.min.js.map"
+      ]
     }
   ]
 }
