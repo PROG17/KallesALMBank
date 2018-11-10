@@ -14,7 +14,7 @@ namespace KallesBank.Models
         [Remote(controller:"Bank", action:"ValidateAccount")]
         public int? AccountId { get; set; }
 
-        [Display(Name = "Transfer amount")]
+        [Display(Name = "Amount")]
         [Required(ErrorMessage = "Please specify a transfer amount.")]
         [Range(double.Epsilon, double.PositiveInfinity, ErrorMessage = "Please only specify a positive amount.")]
         [DataType(DataType.Currency, ErrorMessage = "Please specify a valid amount.")]
