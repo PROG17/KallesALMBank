@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
+using BankRepo;
 using Microsoft.AspNetCore.Mvc;
 using KallesBank.Models;
 
@@ -10,9 +11,22 @@ namespace KallesBank.Controllers
 {
     public class HomeController : Controller
     {
+        private readonly IBankRepository _bankRepository;
+
+        public HomeController(IBankRepository bankRepository)
+        {
+            _bankRepository = bankRepository;
+        }
+
         public IActionResult Index()
         {
-            return View();
+            List<CustomerViewModel> model = _bankRepository.Customers
+                .Select(c => new CustomerViewModel {
+                    Customer = c,
+                    Accounts = _bankRepository.GetAccountsFromCustomer(c.Id)
+                }).ToList();
+
+            return View(model);
         }
 
         public IActionResult About()
