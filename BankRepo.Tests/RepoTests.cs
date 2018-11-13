@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using BankRepo.Models;
@@ -133,6 +134,56 @@ namespace BankRepo.Tests
                 Assert.IsNotNull(account);
                 Assert.AreEqual(expected, account);
             }
+        }
+
+        [TestMethod]
+        public void CorrectBalanceAfterTransferAccount1()
+        {
+            // arrange
+            Account account1 = _repo.GetAccount(13001);
+            account1.Balance = 500;
+            Account account2 = _repo.GetAccount(13002);
+            decimal amount = 500;
+
+            decimal expected = 0;
+
+            // act
+            _repo.Transfer(account1, account2, amount);
+
+            // assert
+            Assert.AreEqual(expected, account1.Balance);
+        }
+
+        [TestMethod]
+        public void CorrectBalanceAfterTransferAccount2()
+        {
+            // arrange
+            Account account1 = _repo.GetAccount(13001);
+            account1.Balance = 500;
+            Account account2 = _repo.GetAccount(13002);
+            account2.Balance = 0;
+            decimal amount = 500;
+
+            decimal expected = 500;
+
+            // act
+            _repo.Transfer(account1, account2, amount);
+
+            // assert
+            Assert.AreEqual(expected, account2.Balance);
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(InvalidOperationException))]
+        public void TransferInsufficient()
+        {
+            Account account1 = _repo.GetAccount(13001);
+            account1.Balance = 0;
+            Account account2 = _repo.GetAccount(13002);
+            account2.Balance = 0;
+            decimal amount = 500;
+            
+            _repo.Transfer(account1, account2, amount);
         }
 
     }
