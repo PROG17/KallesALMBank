@@ -94,9 +94,7 @@ namespace KallesBank.Controllers
 
             try
             {
-                account1.Withdrawl(model.Amount);
-
-                account2.Deposit(model.Amount);
+                _bankRepository.Transfer(account1.Id, account2.Id, model.Amount);
 
                 ViewData["TransferSuccess"] = true;
             }
