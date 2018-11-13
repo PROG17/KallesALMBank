@@ -71,5 +71,64 @@ namespace KallesBank.Controllers
 
             return Json(true);
         }
+
+        //Överföring mellan konton
+        public IActionResult TransferBetweenAccounts(int? id)
+        {
+            return View(new TransferBetweenAccountsViewModel());
+        }
+
+        [HttpPost]
+        public IActionResult TransferBetweenAccounts(TransferBetweenAccountsViewModel model)
+        {
+            if (ValidateAccounts(model) is JsonResult json && json.Value is string error)
+            {
+                ModelState.AddModelError(nameof(model.AccountId1), error);
+            }
+
+            if (!ModelState.IsValid)
+                return View("TransferBetweenAccounts", model);
+
+            Account account1 = _bankRepository.GetAccount(model.AccountId1 ?? 0);
+            Account account2 = _bankRepository.GetAccount(model.AccountId2 ?? 0);
+
+            try
+            {
+                account1.Withdrawl(model.Amount);
+
+                account2.Deposit(model.Amount);
+
+                ViewData["TransferSuccess"] = true;
+            }
+            catch (Exception e)
+            {
+                ModelState.AddModelError(nameof(model.Amount), e.Message);
+            }
+
+            return View("TransferBetweenAccounts", model);
+        }
+
+        [AcceptVerbs("Get", "Post", Route = "/api/[controller]/ValidateAccounts")]
+        public IActionResult ValidateAccounts(TransferBetweenAccountsViewModel model)
+        {
+            if (model.AccountId1 is null)
+            {
+                return Json($"Please specify the target account.");
+            }
+            if (_bankRepository.GetAccount(model.AccountId1.Value) is null)
+            {
+                return Json($"Account #{model.AccountId1} doesnt exist.");
+            }
+            if (model.AccountId2 is null)
+            {
+                return Json($"Please specify the target account.");
+            }
+            if (_bankRepository.GetAccount(model.AccountId2.Value) is null)
+            {
+                return Json($"Account #{model.AccountId2} doesnt exist.");
+            }
+
+            return Json(true);
+        }
     }
 }

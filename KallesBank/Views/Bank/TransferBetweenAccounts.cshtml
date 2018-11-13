@@ -1,0 +1,84 @@
+﻿@using System.Globalization
+@using BankRepo
+@inject IBankRepository BankRepository
+@model TransferBetweenAccountsViewModel
+@{
+    ViewData["Title"] = "Transfer money";
+}
+
+@if (ViewData["TransferSuccess"] is true)
+{
+    Account account1 = Model.AccountId1 is null ? null : BankRepository.GetAccount(Model.AccountId1.Value);
+    Account account2 = Model.AccountId2 is null ? null : BankRepository.GetAccount(Model.AccountId2.Value);
+    <div class="alert alert-success alert-dismissible fade show" role="alert">
+        <h4 class="alert-heading">
+            <text>Transfer successful!</text>
+        </h4>
+        <p>
+            Your Transfer of <strong>@Model.Amount.ToString("C")</strong> has successfully been transfered <br />
+            New balance: <strong>@account1.Id.ToString()</strong> = <strong>@(account1?.Balance.ToString("C") ?? "<unable to fetch balance>")</strong> <br />
+            New balance: <strong>@account2.Id.ToString()</strong> = <strong>@(account2?.Balance.ToString("C") ?? "<unable to fetch balance>")</strong> <br />
+        </p>
+        <p>
+            Have a nice day.
+        </p>
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+}
+
+<h2>Transfer money</h2>
+
+<form method="post" asp-action="TransferBetweenAccounts">
+    <div class="form-row">
+        <div class="col-md-4">
+            <label asp-for="AccountId1"></label>
+            <div class="input-group">
+                <div class="input-group-prepend">
+                    <span class="input-group-text bg-white" id="accountIdHash">#</span>
+                </div>
+                <input asp-for="AccountId1" class="form-control" aria-describedby="accountIdHash" />
+            </div>
+            <span class="text-danger" asp-validation-for="AccountId1"></span>
+        </div>
+        <div class="col-md-4">
+            <label asp-for="AccountId2"></label>
+            <div class="input-group">
+                <div class="input-group-prepend">
+                    <span class="input-group-text bg-white" id="accountIdHash">#</span>
+                </div>
+                <input asp-for="AccountId2" class="form-control" aria-describedby="accountIdHash" />
+            </div>
+            <span class="text-danger" asp-validation-for="AccountId2"></span>
+        </div>
+        <div class="col-md-4">
+            <label asp-for="Amount"></label>
+            <div class="input-group">
+                <div class="input-group-prepend">
+                    <span class="input-group-text bg-white" id="amountMoneySign" data-toggle="tooltip" title="@RegionInfo.CurrentRegion.ISOCurrencySymbol">
+                        @CultureInfo.CurrentCulture.NumberFormat.CurrencySymbol
+                    </span>
+                </div>
+                <input asp-for="Amount" class="form-control" />
+            </div>
+            <span class="text-danger" asp-validation-for="Amount"></span>
+        </div>
+        <div class="col-md-4">
+            <label>&nbsp;</label>
+            <div>
+                <button type="submit" class="btn btn-primary">Transfer</button>
+            </div>
+        </div>
+    </div>
+</form>
+
+@section Scripts
+    {
+    <partial name="_ValidationScriptsPartial" />
+    <script type="text/javascript">
+        $(function () {
+            $('[data-toggle="tooltip"]').tooltip();
+        })
+    </script>
+}
