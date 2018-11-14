@@ -24,8 +24,5 @@ namespace BankRepo
 
         [CanBeNull]
         Account GetAccount(int accountId);
-
-        [CanBeNull]
-        void Transfer(Account _accountId1, Account _accountId2, decimal amount);
     }
 }

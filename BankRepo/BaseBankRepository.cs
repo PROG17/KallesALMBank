@@ -45,16 +45,5 @@ namespace BankRepo
         {
             return _accounts.SingleOrDefault(c => c.Id == accountId);
         }
-
-        public void Transfer(Account account1, Account account2, decimal amount)
-        {
-            if (amount <= 0)
-                throw new ArgumentException("Amount must be positive!", nameof(amount));
-            if (amount > account1.Balance)
-                throw new InvalidOperationException("Amount can not be greater than the account balance!");
-
-            account2.Balance += amount;
-            account1.Balance -= amount;
-        }
     }
 }
