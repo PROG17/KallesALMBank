@@ -7,18 +7,12 @@ namespace BankRepo.Tests
     [TestClass]
     public class AccountTests
     {
-        private Account account;
-
-        [TestInitialize]
-        public void TestInitialize()
-        {
-            account = new Account();
-        }
-
         [TestMethod]
         [ExpectedException(typeof(ArgumentException))]
         public void WithdrawZero()
         {
+            var account = new Account();
+
             account.Withdrawl(0);
         }
 
@@ -26,6 +20,8 @@ namespace BankRepo.Tests
         [ExpectedException(typeof(ArgumentException))]
         public void WithdrawNegative()
         {
+            var account = new Account();
+
             account.Withdrawl(-10);
         }
 
@@ -33,12 +29,16 @@ namespace BankRepo.Tests
         [ExpectedException(typeof(InvalidOperationException))]
         public void WithdrawInsufficient()
         {
+            var account = new Account();
+
             account.Withdrawl(10);
         }
 
         [TestMethod]
         public void WithdrawAfterDeposit()
         {
+            var account = new Account();
+
             account.Deposit(10);
             account.Withdrawl(5);
 
@@ -48,6 +48,8 @@ namespace BankRepo.Tests
         [TestMethod]
         public void WithdrawTwiceAfterDeposit()
         {
+            var account = new Account();
+
             account.Deposit(10);
             account.Withdrawl(5);
             account.Withdrawl(5);
@@ -59,6 +61,8 @@ namespace BankRepo.Tests
         [ExpectedException(typeof(InvalidOperationException))]
         public void WithdrawAfterDepositInsufficient()
         {
+            var account = new Account();
+
             account.Deposit(5);
             account.Withdrawl(10);
         }
@@ -67,12 +71,16 @@ namespace BankRepo.Tests
         [ExpectedException(typeof(ArgumentException))]
         public void DepositZero()
         {
+            var account = new Account();
+
             account.Deposit(0);
         }
 
         [TestMethod]
         public void DepositPositive()
         {
+            var account = new Account();
+
             account.Deposit(5);
 
             Assert.AreEqual(5, account.Balance);
@@ -81,6 +89,8 @@ namespace BankRepo.Tests
         [TestMethod]
         public void DepositPositiveTwice()
         {
+            var account = new Account();
+
             account.Deposit(5);
             account.Deposit(5);
 
@@ -91,6 +101,8 @@ namespace BankRepo.Tests
         [ExpectedException(typeof(ArgumentException))]
         public void DepositNegative()
         {
+            var account = new Account();
+
             account.Deposit(-5);
         }
 
