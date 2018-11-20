@@ -136,42 +136,5 @@ namespace BankRepo.Tests
             }
         }
 
-        [TestMethod]
-        public void CorrectBalanceAfterTransferAccount1()
-        {
-            // arrange
-            Account account1 = new Account();
-            account1.Balance = 500;
-            Account account2 = new Account();
-            decimal amount = 500;
-
-            // act
-            account1.Transfer(account2, amount);
-
-            // assert
-            Assert.AreEqual(0, account1.Balance);
-            Assert.AreEqual(500, account2.Balance);
-        }
-        
-        [TestMethod]
-        [ExpectedException(typeof(InvalidOperationException))]
-        public void TransferInsufficient()
-        {
-            Account account1 = new Account();
-            Account account2 = new Account();
-            
-            account1.Transfer(account2, 500);
-        }
-
-        [TestMethod]
-        [ExpectedException(typeof(ArgumentException))]
-        public void TransferInvalidAmount()
-        {
-            Account account1 = new Account();
-            Account account2 = new Account();
-
-            account1.Transfer(account2, -1);
-        }
-
     }
 }
