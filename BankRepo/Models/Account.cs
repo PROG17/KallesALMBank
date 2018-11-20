@@ -22,8 +22,19 @@ namespace BankRepo.Models
             if (amount <= 0)
                 throw new ArgumentException("Amount must be positive!", nameof(amount));
             if (amount > Balance)
-                throw new InvalidOperationException("Amount must be greater than the account balance!");
+                throw new InvalidOperationException("Amount can not be greater than the account balance!");
 
+            Balance -= amount;
+        }
+
+        public void Transfer(Account account, decimal amount)
+        {
+            if (amount <= 0)
+                throw new ArgumentException("Amount must be positive!", nameof(amount));
+            if (amount > Balance)
+                throw new InvalidOperationException("Amount can not be greater than the account balance!");
+
+            account.Balance += amount;
             Balance -= amount;
         }
     }
