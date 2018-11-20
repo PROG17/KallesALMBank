@@ -73,7 +73,7 @@ namespace KallesBank.Controllers
         }
 
         //Överföring mellan konton
-        public IActionResult TransferBetweenAccounts(int? id)
+        public IActionResult TransferBetweenAccounts()
         {
             return View(new TransferBetweenAccountsViewModel());
         }
