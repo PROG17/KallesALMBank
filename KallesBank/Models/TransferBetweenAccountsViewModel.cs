@@ -16,7 +16,7 @@ namespace KallesBank.Models
 
         [Display(Name = "Account")]
         [Required(ErrorMessage = "Please specify the target account.")]
-        [Remote(controller: "Bank", action: "ValidateAccounts")]
+        [Remote(controller: "Bank", action: "ValidateAccounts", AdditionalFields = nameof(AccountId1))]
         public int? AccountId2 { get; set; }
 
         [Display(Name = "Amount")]
