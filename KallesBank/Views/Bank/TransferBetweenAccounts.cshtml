@@ -1,28 +1,23 @@
 ﻿@using System.Globalization
 @using BankRepo
 @inject IBankRepository BankRepository
-@model TransferViewModel
+@model TransferBetweenAccountsViewModel
 @{
-    ViewData["Title"] = "Withdraw/Deposit money";
+    ViewData["Title"] = "Transfer money";
 }
 
 @if (ViewData["TransferSuccess"] is true)
 {
-    Account account = Model.AccountId is null ? null : BankRepository.GetAccount(Model.AccountId.Value);
+    Account account1 = Model.AccountId1 is null ? null : BankRepository.GetAccount(Model.AccountId1.Value);
+    Account account2 = Model.AccountId2 is null ? null : BankRepository.GetAccount(Model.AccountId2.Value);
     <div class="alert alert-success alert-dismissible fade show" role="alert">
         <h4 class="alert-heading">
-            @if (Model.Submit == TransferViewModel.SubmitType.Deposit)
-            {
-                <text>Deposit successful!</text>
-            }
-            else
-            {
-                <text>Withdrawl successful!</text>
-            }
+            <text>Transfer successful!</text>
         </h4>
         <p>
-            Your <strong>@Model.Amount.ToString("C")</strong> has successfully been transfered.<br/>
-            New balance: <strong>@(account?.Balance.ToString("C") ?? "<unable to fetch balance>")</strong>
+            Your Transfer of <strong>@Model.Amount.ToString("C")</strong> has successfully been transfered <br />
+            New balance: <strong>@account1.Id.ToString()</strong> = <strong>@(account1?.Balance.ToString("C") ?? "<unable to fetch balance>")</strong> <br />
+            New balance: <strong>@account2.Id.ToString()</strong> = <strong>@(account2?.Balance.ToString("C") ?? "<unable to fetch balance>")</strong> <br />
         </p>
         <p>
             Have a nice day.
@@ -33,19 +28,29 @@
     </div>
 }
 
-<h2>Withdraw/Deposit money</h2>
+<h2>Transfer money</h2>
 
-<form method="post" asp-action="Transfer">
+<form method="post" asp-action="TransferBetweenAccounts">
     <div class="form-row">
         <div class="col-md-4">
-            <label asp-for="AccountId"></label>
+            <label asp-for="AccountId1"></label>
             <div class="input-group">
                 <div class="input-group-prepend">
                     <span class="input-group-text bg-white" id="accountIdHash">#</span>
                 </div>
-                <input asp-for="AccountId" class="form-control" aria-describedby="accountIdHash" />
+                <input asp-for="AccountId1" class="form-control" aria-describedby="accountIdHash" />
             </div>
-            <span class="text-danger" asp-validation-for="AccountId"></span>
+            <span class="text-danger" asp-validation-for="AccountId1"></span>
+        </div>
+        <div class="col-md-4">
+            <label asp-for="AccountId2"></label>
+            <div class="input-group">
+                <div class="input-group-prepend">
+                    <span class="input-group-text bg-white" id="accountIdHash">#</span>
+                </div>
+                <input asp-for="AccountId2" class="form-control" aria-describedby="accountIdHash" />
+            </div>
+            <span class="text-danger" asp-validation-for="AccountId2"></span>
         </div>
         <div class="col-md-4">
             <label asp-for="Amount"></label>
@@ -62,8 +67,7 @@
         <div class="col-md-4">
             <label>&nbsp;</label>
             <div>
-                <input asp-for="Submit" type="submit" class="btn btn-primary" value="@TransferViewModel.SubmitType.Deposit" />
-                <input asp-for="Submit" type="submit" class="btn btn-secondary" value="@TransferViewModel.SubmitType.Withdraw" />
+                <button type="submit" class="btn btn-primary">Transfer</button>
             </div>
         </div>
     </div>
