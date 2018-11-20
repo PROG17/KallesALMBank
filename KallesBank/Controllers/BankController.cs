@@ -109,21 +109,17 @@ namespace KallesBank.Controllers
         [AcceptVerbs("Get", "Post", Route = "/api/[controller]/ValidateAccounts")]
         public IActionResult ValidateAccounts(TransferBetweenAccountsViewModel model)
         {
-            if (model.AccountId1 is null)
-            {
-                return Json($"Please specify the target account.");
-            }
-            if (_bankRepository.GetAccount(model.AccountId1.Value) is null)
+            if (!(model.AccountId1 is null) && _bankRepository.GetAccount(model.AccountId1.Value) is null)
             {
                 return Json($"Account #{model.AccountId1} doesnt exist.");
             }
-            if (model.AccountId2 is null)
-            {
-                return Json($"Please specify the target account.");
-            }
-            if (_bankRepository.GetAccount(model.AccountId2.Value) is null)
+            if (!(model.AccountId2 is null) && _bankRepository.GetAccount(model.AccountId2.Value) is null)
             {
                 return Json($"Account #{model.AccountId2} doesnt exist.");
+            }
+            if (model.AccountId1 == model.AccountId2)
+            {
+                return Json($"Account can not transfer to itself.");
             }
 
             return Json(true);
